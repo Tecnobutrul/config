@@ -1,0 +1,79 @@
+#!/bin/bash
+
+
+
+dir=~/.i3/scripts/weather/weather.json
+location=$1
+
+
+#Get a file with Galicia weather info. The info refreses every 10 min
+curl -L http://servizos.meteogalicia.gal/rss/observacion/observacionConcellos.action > $dir
+
+
+# Get location info from weather file
+#field=$(awk -v MYPATTERN=$location '$0 ~ MYPATTERN { 
+#    for (i=1;i<=NF;i++) {
+#        if ($i ~ MYPATTERN) { print "Field " i " in " NR " row matches: " MYPATTERN }
+#    }
+#}' $dir | cut -d " " -f2)
+
+field=$(awk -F} -v MYPATTERN="Santiago de Compostela" '$0 ~ MYPATTERN { 
+    for (i=1;i<=NF;i++) {
+        if ($i ~ MYPATTERN) { print i }
+    }
+}' $dir)
+
+
+#Get temperature from weather file
+temp=$(cat $dir | cut -d "}" -f$field | egrep -o '"temperatura":.{,4}' | cut -d ":" -f2) 
+#Get sky status code from weather file
+sky=$(cat $dir | cut -d "}" -f$field | egrep -o '"icoEstadoCeo":[0-9]{,4}' | cut -d ":" -f2) 
+
+
+# Display an icon depending on the weather
+# Codes available in 
+# http://www.meteogalicia.gal/datosred/infoweb/meteo/docs/rss/JSON_estado_actual_gl.pdf
+#
+# Code -9999 (sad guy) for uknown sky state
+
+
+if [ $sky -lt 0 ]
+then 
+	icon="\uf5b3"
+elif [ $sky -lt 104 ]
+then 
+	icon="\uf185"
+elif [ $sky -lt 105 ]
+then 
+	icon="\uf0c2"
+elif [ $sky -lt 112 ]
+then 
+	icon="\uf0e9"
+elif [ $sky -lt 202 ]
+then 
+	icon="\uf186"
+elif [ $sky -lt 212 ]
+then 
+	icon="\uf0e9"
+fi
+
+#if [ $temp > 30 ]
+#then 
+#	echo -e "\uf0e7 calor"
+#elif [ $temp > 22 ]
+#then
+#	echo "guay"
+#elif [ $temp > 12 ]
+#then
+#	echo "freshco"
+#else
+#	echo "frio"
+#fi
+	
+##################################################
+#     Display info
+##################################################
+
+echo -e "$icon$temp\u2103"
+
+#echo -e "$icon$temp\u2103"

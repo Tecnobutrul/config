@@ -1,0 +1,146 @@
+" Space key as leader
+let mapleader = ' '
+nnoremap <Space> <NOP>
+" Some basics:
+set nocompatible
+set encoding=utf-8
+set number
+set noswapfile
+set relativenumber
+set nowrap
+set tabstop=2
+set expandtab
+set shiftwidth=2
+set clipboard=unnamed
+set background=dark
+set wildmenu
+set softtabstop=2
+set smarttab
+
+" Allow navigate unsaved buffers without showing errors
+set hidden
+
+
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
+set wildignore+=*.pdf,*.psd
+" Highlight matching [{()}]
+set showmatch
+
+" Splits open at the botom and right.
+set splitbelow splitright
+
+" Disable automatic commenting on newline
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Searching
+""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch
+set hlsearch
+
+" Split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-surround'
+Plugin 'Valloric/YoucompleteMe'
+Plugin 'Raimondi/DelimitMate'
+"	Plugin 'dylanaraps/wal.vim'
+Plugin 'nvie/vim-flake8'
+Plugin 'python-mode/python-mode'
+Plugin 'vim-airline/vim-airline'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'mpetazzoni/autopreview.vim'
+Plugin 'junegunn/fzf.vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+" Python mode
+let g:pymode_python = 'python3'
+let g:pymode_rope_completion = 1
+
+au BufNewFile,BufEnter *.md call autopreview#autopreview()
+
+""""""""""""""""""""""""""""""""""""fzf
+set rtp+=~/.vim/bundle/.fzf
+"maps \e to open fuzzy finding
+nnoremap <Leader>e :Files<CR>
+"maps \ag to open ag content fuzzy finding
+nnoremap <Leader>ag :Rg<CR>
+" Adds preview to ripgrep search
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+\ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+"maps \b to navigate open buffers
+nnoremap <Leader>b :Buffers<CR>
+""""""""""""""""""""""""""""""""""""fzf
+
+" Syntasctic recomended settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" python lint
+let g:syntastic_python_checkers = ['pylint']
+
+""""""""""""""""""""""""""""""""""""
+" Enable tabline
+let g:airline#extensions#tabline#enabled = 1
+
+""""""""""""""""""""""""""""""""""""fugitive
+nmap <leader>g :Gstatus<CR>
+" Open commits on file in quickfix with fzf
+nmap <leader>c :BCommits<CR>
+" Opens commits log
+nmap <leader>C :Commits<CR>
+"
+""""""""""""""""""""""""""""""""""""fugitive
+
+""""""""""""""""""""""""""""""""""""change current working dir
+nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
+
+
+""""""""""""""""""""""""""""""""""""Terminal
+tnoremap <Esc> <C-W>N
+nnoremap <Leader>t :top terminal<CR><C-W>N:resize 15<CR>i
