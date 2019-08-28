@@ -10,15 +10,13 @@ print(dotfiles)
 link_targets = {
     "vim": home,
     "zsh": home,
-    "i3": home+"/.config/i3",
+    "i3": home + "/.config/i3",
 }
 
 dot_files = ["vim", "zsh"]
 non_dot_files = ["i3"]
 
-
 def config_files(dir_path):
-    print('carptea nova:' + dir_path)
 
     for element in os.listdir(dir_path):
         abs_path = os.path.join(dir_path, element)
@@ -31,7 +29,7 @@ def config_files(dir_path):
                     # Creates links on home directory
                     link = link_targets[os.path.basename(dir_path)] + "/." + element
                     subprocess.call(['ln', '-s', abs_path, link])
-                    print ('Creating link for: ' + link)
+                    print('Creating link for: ' + link)
 
                 else:
                     # Creates link based on directory name
@@ -40,7 +38,7 @@ def config_files(dir_path):
                     if(not os.path.exists(os.path.dirname(link))):
                         subprocess.call(['mkdir', '-p', os.path.dirname(link)])
                     subprocess.call(['ln', '-s', abs_path, link])
-                    print ('Creating link for: ' + link)
+                    print('Creating link for: ' + link)
 
 
-config_files(dotfiles)
+# config_files(dotfiles)
