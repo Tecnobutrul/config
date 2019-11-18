@@ -14,7 +14,7 @@ set shiftwidth=2
 set clipboard=unnamed
 set background=dark
 set wildmenu
-set softtabstop=2
+" set softtabstop=2
 set smarttab
 
 " Allow navigate unsaved buffers without showing errors
@@ -75,6 +75,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'ervandew/supertab'
 Plugin 'fatih/vim-go'
 Plugin 'mdempsky/gocode', {'rtp': 'vim/'}
+Plugin 'godlygeek/tabular'
 
 
 
@@ -95,9 +96,10 @@ filetype plugin indent on    " required
 
 " Python mode
 let g:pymode_python = 'python3'
-let g:pymode_rope_completion = 1
+let g:pymode_rope_completion = 0
 let g:pymode_options_colorcolumn = 0
 let g:pymode_options_max_line_length = 200
+let g:pymode_warnings = 0
 
 """"""""""""""""""""""""""""""""""""Youcompleteme
 " make YCM compatible with UltiSnips (using supertab)
@@ -178,3 +180,42 @@ filetype plugin on
 " Completion to Go language
 let g:go_code_completion_enabled = 1
 setlocal omnifunc=go#complete#Complete
+
+" au BufWinLeave <buffer> execute "!rm proba.txt"
+"
+
+
+function! FuncionProbas()
+  write! templates/entrada.yaml
+  silent execute '!helm template . -x templates/entrada.yaml | tee > templates/salida.yaml' | redraw!
+  vs
+  edit templates/salida.yaml
+  " silent execute "!rm templates/salida.yaml" | redraw!<CR>
+  " silent execute "!rm templates/salida.yaml"
+  silent execute "!rm -f templates/entrada.yaml"
+endfunction
+
+
+" autocmd BufRead,BufNewFile */templates/*.yaml,*/templates/*.yml,*/templates/*.tpl call FuncionProbas()
+" if &filetype=="helm"
+"   echo "ñjdñlfjasñlkfjadsñ"
+"   call FuncionProbas()
+" endif
+
+""""""""""""""""""""""""""""""""""""Tabularize
+" tabularize by selection in visual mode
+vmap <leader>T y:Tabularize /<C-R>"/<CR>
+" tabularize =
+nmap <leader>T= :Tabularize /^[^=]*\zs=/<CR>
+nmap <leader>Te :Tabularize /^[^=]*\zs=/<CR>
+" tabularize =>
+nmap <leader>Th :Tabularize /^[^=>]*\zs=>/<CR>
+" tabularize {
+nmap <leader>T{ :Tabularize /^[^{]*\zs{/<CR>
+nmap <leader>TB :Tabularize /^[^{]*\zs{/<CR>
+" tabularize (
+nmap <leader>T( :Tabularize /^[^(]*\zs(/<CR>
+nmap <leader>tb :Tabularize /^[^(]*\zs(/<CR>
+" tabularize (
+nmap <leader>Td :Tabularize /^[^:]*\zs:/<CR>
+""""""""""""""""""""""""""""""""""""Tabularize
