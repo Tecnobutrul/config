@@ -68,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-kubectl-prompt)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,6 +98,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 PATH=$PATH:/home/dani/bin
+
 export EDITOR=vim
 export VISUAL=vim
 export BROWSER=google-chrome-stable
@@ -105,8 +106,11 @@ export KUBECONFIG=$HOME/.kube/config
 export GOPATH=$(go env GOPATH)
 feh --bg-scale /home/dani/wallpapers/home.png
 xset r rate 200 60
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(kubectl completion zsh)
 export PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/bin:/usr/local/go/bin:/home/dani/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/dani/bin:/home/dani/bin:/home/dani/.vim/bundle/.fzf/bin:/home/dani/.linkerd2/bin
 export PATH=$PATH:$(go env GOPATH)/bin
+export PATH=$PATH:/home/dani/.local/bin
+
+RPROMPT='%{$fg[grey]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
