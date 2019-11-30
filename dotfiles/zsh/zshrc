@@ -113,4 +113,4 @@ export PATH=$PATH:$(go env GOPATH)/bin
 export PATH=$PATH:/home/dani/.local/bin
 
 RPROMPT='%{$fg[grey]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
