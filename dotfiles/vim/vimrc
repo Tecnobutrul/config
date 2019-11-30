@@ -70,12 +70,13 @@ Plugin 'StanAngeloff/php.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mpetazzoni/autopreview.vim'
 Plugin 'junegunn/fzf.vim'
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'ervandew/supertab'
 Plugin 'fatih/vim-go'
 Plugin 'mdempsky/gocode', {'rtp': 'vim/'}
 Plugin 'godlygeek/tabular'
+Plugin 'vim-scripts/vim-auto-save'
 
 
 
@@ -167,11 +168,11 @@ tnoremap <Esc> <C-W>N
 nnoremap <Leader>t :top terminal<CR><C-W>N:resize 15<CR>i
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsExpandTrigger="<tab>"
 
 " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetDirectories=['~/UltiSnips']
+"let g:UltiSnipsEditSplit="vertical"
+"let g:UltiSnipsSnippetDirectories=['~/UltiSnips']
 " let g:UltiSnipsSnippetsDir=['~/UltiSnips']
 
 filetype plugin on
@@ -219,3 +220,8 @@ nmap <leader>tb :Tabularize /^[^(]*\zs(/<CR>
 " tabularize (
 nmap <leader>Td :Tabularize /^[^:]*\zs:/<CR>
 """"""""""""""""""""""""""""""""""""Tabularize
+
+" vim-autosave
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:auto_save = 1    " enable AutoSave on Vim startup
+let g:auto_save_silent = 1  " do not display the auto-save notification
